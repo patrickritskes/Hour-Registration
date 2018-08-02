@@ -7,6 +7,7 @@ import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireDatabaseModule } from "angularfire2/database";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
 import { HomePage } from "../pages/home/home";
+import { FirebaseService } from "../services/firebase.service";
 import { MyApp } from "./app.component";
 import { FIREBASE_CONFIG } from "./firebase.config";
 
@@ -24,7 +25,8 @@ import { FIREBASE_CONFIG } from "./firebase.config";
   providers: [
     StatusBar,
     SplashScreen,
-    { provide: ErrorHandler, useClass: IonicErrorHandler }
+    { provide: ErrorHandler, useClass: IonicErrorHandler },
+    FirebaseService
   ]
 })
 export class AppModule {}
