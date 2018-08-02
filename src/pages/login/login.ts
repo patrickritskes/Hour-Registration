@@ -11,6 +11,8 @@ import {
 import { User } from "../../interfaces/user";
 import { FirebaseService } from "../../services/firebase.service";
 import { HomePage } from "../home/home";
+import { PasswordResetPage } from "../password-reset/password-reset";
+import { RegisterPage } from "../register/register";
 
 @IonicPage()
 @Component({
@@ -81,5 +83,13 @@ export class LoginPage implements OnInit {
       dismissOnPageChange: true
     });
     this.loading.present();
+  }
+
+  toRegister() {
+    this.navCtrl.push(RegisterPage);
+  }
+
+  toResetPassword() {
+    this.navCtrl.push(PasswordResetPage);
   }
 }

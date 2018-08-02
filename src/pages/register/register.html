@@ -1,0 +1,135 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>Registreren</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form (ngSubmit)="onRegister(user)" autocomplete="true" [formGroup]="registerForm">
+
+    <ion-list>
+
+      <ion-grid>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>Naam</ion-label>
+              <ion-input type="text"
+                formControlName="name"
+                autocomplete="true"
+                [(ngModel)]="user.name"
+                [ngClass]="{
+                  'has-danger': name.invalid && name.touched
+                }">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>E-mail</ion-label>
+              <ion-input type="email"
+                formControlName="email"
+                autocomplete="true"
+                [(ngModel)]="user.email"
+                [ngClass]="{
+                  'has-danger': email.invalid && email.touched
+                }">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>Password</ion-label>
+              <ion-input type="password"
+                minlength="6"
+                formControlName="password"
+                autocomplete="true"
+                [(ngModel)]="user.password"
+                [ngClass]="{
+                  'has-danger': password.invalid && password.touched
+                }">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>Adres</ion-label>
+              <ion-input type="text"
+                formControlName="address"
+                autocomplete="true"
+                [(ngModel)]="user.address"
+                [ngClass]="{
+                  'has-danger': address.invalid && address.touched
+                }">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col col-5>
+            <ion-item>
+              <ion-label floating>Postcode</ion-label>
+              <ion-input type="text"
+                formControlName="zipcode"
+                autocomplete="true"
+                [(ngModel)]="user.zipcode"
+                [ngClass]="{
+                  'has-danger': zipcode.invalid && zipcode.touched
+                }">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+          <ion-col col-7>
+            <ion-item>
+              <ion-label floating>Woonplaats</ion-label>
+              <ion-input type="text"
+                formControlName="city"
+                autocomplete="true"
+                [(ngModel)]="user.city"
+                [ngClass]="{
+                  'has-danger': city.invalid && city.touched
+                }">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>Telefoon</ion-label>
+              <ion-input type="tel"
+                maxlength="10"
+                minlength="10"
+                formControlName="phoneNumber"
+                autocomplete="true"
+                [(ngModel)]="user.phoneNumber"
+                [ngClass]="{
+                  'has-danger': phoneNumber.invalid && phoneNumber.touched
+                }">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+
+        </ion-row>
+
+      </ion-grid>
+
+    </ion-list>
+
+    <button block ion-button color="primary" [disabled]="!registerForm.valid">Registreren</button>
+  </form>
+</ion-content>

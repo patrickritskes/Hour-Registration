@@ -46,6 +46,9 @@
 
     </ion-list>
 
-    <button type="submit" block ion-button color="primary" class="btn-modante" [disabled]="!loginForm.valid">Inloggen</button>
+    <button type="submit" block ion-button color="primary" [disabled]="!loginForm.valid">Inloggen</button>
   </form>
+
+  <button ion-button block clear (click)="toResetPassword()">Ik ben mijn wachtwoord vergeten! 🙁</button>
+  <button ion-button block clear (click)="toRegister()">Nieuwe Klant? Registreer eerst!</button>
 </ion-content>
