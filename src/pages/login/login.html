@@ -1,0 +1,51 @@
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>login</ion-title>
+  </ion-navbar>
+
+</ion-header>
+
+<ion-content padding>
+  <form (ngSubmit)="onLogin(user)" autocomplete="true" [formGroup]="loginForm">
+
+    <ion-list>
+
+      <ion-grid>
+
+        <ion-row>
+          <ion-col>
+            <ion-item>
+              <ion-label floating>E-mail</ion-label>
+              <ion-input
+                  type="email"
+                  formControlName="email"
+                  autocomplete="true"
+                  [(ngModel)]="user.email"
+                  [ngClass]="{
+                    'has-danger': email.invalid && email.touched
+                  }">
+                </ion-input>
+            </ion-item>
+        
+            <ion-item>
+              <ion-label floating>Password</ion-label>
+              <ion-input type="password"
+                  formControlName="password"
+                  autocomplete="true"
+                  [(ngModel)]="user.password"
+                  [ngClass]="{
+                    'has-danger': password.invalid && password.touched
+                  }">
+              </ion-input>
+            </ion-item>
+          </ion-col>
+        </ion-row>
+
+      </ion-grid>
+
+    </ion-list>
+
+    <button type="submit" block ion-button color="primary" class="btn-modante" [disabled]="!loginForm.valid">Inloggen</button>
+  </form>
+</ion-content>
