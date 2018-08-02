@@ -1,0 +1,8 @@
+{
+  "name": "hour-registration",
+  "integrations": {
+    "cordova": {}
+  },
+  "type": "ionic-angular",
+  "pro_id": "b0b8bf77"
+}
