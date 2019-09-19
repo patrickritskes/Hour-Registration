@@ -11,6 +11,7 @@ import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
 import { PasswordResetPage } from "../pages/password-reset/password-reset";
 import { RegisterPage } from "../pages/register/register";
+import { TimeRegistrationPage } from "../pages/time-registration/time-registration";
 import { FirebaseService } from "../services/firebase.service";
 import { MyApp } from "./app.component";
 import { FIREBASE_CONFIG } from "./firebase.config";
@@ -22,7 +23,8 @@ import { FIREBASE_CONFIG } from "./firebase.config";
     LoginPage,
     RegisterPage,
     PasswordResetPage,
-    AdminprofilePage
+    AdminprofilePage,
+    TimeRegistrationPage
   ],
   imports: [
     BrowserModule,
@@ -38,7 +40,8 @@ import { FIREBASE_CONFIG } from "./firebase.config";
     LoginPage,
     RegisterPage,
     PasswordResetPage,
-    AdminprofilePage
+    AdminprofilePage,
+    TimeRegistrationPage
   ],
   providers: [
     StatusBar,

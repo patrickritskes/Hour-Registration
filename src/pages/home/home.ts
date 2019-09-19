@@ -11,6 +11,7 @@ import { User } from "../../interfaces/user";
 import { FirebaseService } from "../../services/firebase.service";
 import { AdminprofilePage } from "../adminprofile/adminprofile";
 import { LoginPage } from "../login/login";
+import { TimeRegistrationPage } from "../time-registration/time-registration";
 
 @Component({
   selector: "page-home",
@@ -107,5 +108,9 @@ export class HomePage {
 
   userSelected(user: User) {
     console.log(user);
+  }
+
+  toTimeRegistraion() {
+    this.navCtrl.push(TimeRegistrationPage);
   }
 }

@@ -1,0 +1,45 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>time-registration</ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content
+  ><form (ngSubmit)="saveTimeReg(timeRegForm)" [formGroup]="timeRegForm">
+    <ion-grid>
+      <ion-row class="week-number-wrapper">
+        <ion-col col-12
+          ><h2>Week {{ weekNumber }}</h2></ion-col
+        >
+      </ion-row>
+      <ion-row>
+        <ion-col class="day-header" *ngFor="let day of weekDays">{{
+          day
+        }}</ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col
+          class="time-reg"
+          *ngFor="let day of weekDays; let index = index"
+        >
+          <ion-input
+            class="time-reg-input"
+            type="number"
+            maxLength="2"
+            formControlName="timeInput{{ index }}"
+          ></ion-input>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          Totaat gewerkt deze week: {{ totalWorkedHours }}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col>
+          <button type="submit">Opslaan</button>
+        </ion-col>
+      </ion-row>
+    </ion-grid>
+  </form>
+</ion-content>

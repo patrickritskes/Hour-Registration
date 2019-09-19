@@ -38,5 +38,7 @@
       </ng-container>
     </ng-container>
   </ng-container>
-  <ng-container *ngIf="!isCurrentUserAdmin"></ng-container>
+  <ng-container *ngIf="!isCurrentUserAdmin">
+    <button (click)="toTimeRegistraion()">Tijd Registratie</button>
+  </ng-container>
 </ion-content>

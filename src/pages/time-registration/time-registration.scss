@@ -1,0 +1,23 @@
+page-time-registration {
+  .week-number-wrapper {
+    background-color: lightgray;
+    padding: 10px;
+  }
+
+  .day-header {
+    background-color: lightgray;
+    padding: 10px;
+    text-transform: capitalize;
+    font-size: 8pt;
+  }
+
+  .time-reg {
+    border: 1px solid lightgray;
+
+    .time-reg-input {
+      border: 1px solid lightgray;
+      font-size: 20pt;
+      text-indent: 5px;
+    }
+  }
+}
