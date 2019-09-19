@@ -1,10 +1,9 @@
-export interface User {
-  email: string;
-  password: string;
-  name: string;
+import { User } from "firebase";
+
+export interface UserProfile extends User {
   address: string;
   city: string;
   zipcode: string;
-  phoneNumber: number;
+  phoneNumber: string;
   role: string;
 }

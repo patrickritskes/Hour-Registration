@@ -58,7 +58,7 @@ export class RegisterPage implements OnInit {
             city: user.city,
             zipcode: user.zipcode,
             phoneNumber: user.phoneNumber,
-            role: "gebruiker"
+            role: "user"
           })
           .then(() => this.navCtrl.setRoot(HomePage));
       },
