@@ -6,6 +6,7 @@ import { AngularFireModule } from "angularfire2";
 import { AngularFireAuthModule } from "angularfire2/auth";
 import { AngularFireDatabaseModule } from "angularfire2/database";
 import { IonicApp, IonicErrorHandler, IonicModule } from "ionic-angular";
+import { AdminprofilePage } from "../pages/adminprofile/adminprofile";
 import { HomePage } from "../pages/home/home";
 import { LoginPage } from "../pages/login/login";
 import { PasswordResetPage } from "../pages/password-reset/password-reset";
@@ -15,7 +16,14 @@ import { MyApp } from "./app.component";
 import { FIREBASE_CONFIG } from "./firebase.config";
 
 @NgModule({
-  declarations: [MyApp, HomePage, LoginPage, RegisterPage, PasswordResetPage],
+  declarations: [
+    MyApp,
+    HomePage,
+    LoginPage,
+    RegisterPage,
+    PasswordResetPage,
+    AdminprofilePage
+  ],
   imports: [
     BrowserModule,
     IonicModule.forRoot(MyApp),
@@ -29,7 +37,8 @@ import { FIREBASE_CONFIG } from "./firebase.config";
     HomePage,
     LoginPage,
     RegisterPage,
-    PasswordResetPage
+    PasswordResetPage,
+    AdminprofilePage
   ],
   providers: [
     StatusBar,

@@ -1,0 +1,32 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Je Profiel
+    </ion-title>
+  </ion-navbar>
+  <ion-toolbar>
+    <ion-buttons start>
+      <button ion-button icon-left (click)="dismiss()">
+        <ion-icon name="arrow-back"> Terug</ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card *ngIf="adminData">
+    <ion-card-title padding>{{ adminData.name }}</ion-card-title>
+    <address>
+      <ion-card-content>
+        <address>
+          <p>{{ adminData.address }}</p>
+          <p>{{ adminData.zipcode }} {{ adminData.city }}</p>
+          <p><ion-icon name="call"></ion-icon> {{ adminData.phoneNumber }}</p>
+        </address>
+      </ion-card-content>
+    </address>
+  </ion-card>
+
+  <button ion-button block color="danger" class="btn-modante" (click)="logOut()">Uitloggen</button>
+  <button block ion-button color="secondary" class="btn-modante" (click)="dismiss()">Terug naar je Profiel</button>
+</ion-content>

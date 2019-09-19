@@ -11,7 +11,12 @@
     }}</ion-title>
 
     <ion-buttons end>
-      <button *ngIf="isCurrentUserAdmin" ion-button icon-only (click)="showAdminProfile()">
+      <button
+        *ngIf="isCurrentUserAdmin"
+        ion-button
+        icon-only
+        (click)="showAdminProfile()"
+      >
         <ion-icon name="contact"></ion-icon>
       </button>
       <button ion-button icon-only (click)="logOut()">
@@ -21,20 +26,15 @@
   </ion-toolbar>
 </ion-header>
 
-<ion-content>
+<ion-content padding>
   <ng-container *ngIf="isCurrentUserAdmin">
     <ng-container *ngFor="let user of userProfiles">
       <ng-container *ngIf="user.role !== 'admin'">
-        <ion-card>
-          <ion-card-title padding>{{ user.name }}</ion-card-title>
-          <ion-card-content>
-            <address>
-              <p>{{ user.address }}</p>
-              <p>{{ user.zipcode }} {{ user.city }}</p>
-              <p><ion-icon name="call"></ion-icon> {{ user.phoneNumber }}</p>
-            </address>
-          </ion-card-content>
-        </ion-card>
+        <ion-list>
+          <button ion-item (click)="userSelected(user)">
+            <strong>{{ user.name }}</strong> / {{ user.address }}
+          </button>
+        </ion-list>
       </ng-container>
     </ng-container>
   </ng-container>

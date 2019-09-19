@@ -9,6 +9,7 @@ import {
 import { map } from "rxjs/operators";
 import { User } from "../../interfaces/user";
 import { FirebaseService } from "../../services/firebase.service";
+import { AdminprofilePage } from "../adminprofile/adminprofile";
 import { LoginPage } from "../login/login";
 
 @Component({
@@ -46,7 +47,7 @@ export class HomePage {
           /* Flag if a user is admin */
           if (role === "admin") {
             this.isCurrentUserAdmin = true;
-            this.adminUserProfile.push(snapshot.val());
+            this.adminUserProfile = snapshot.val();
             console.log(this.adminUserProfile);
           }
 
@@ -74,7 +75,7 @@ export class HomePage {
   }
 
   showAdminProfile(adminProfileData: User) {
-    let adminModal = this.modalCtrl.create(LoginPage, {
+    let adminModal = this.modalCtrl.create(AdminprofilePage, {
       adminUser: adminProfileData
     });
     adminModal.present();
@@ -102,5 +103,9 @@ export class HomePage {
     });
 
     actionSheet.present();
+  }
+
+  userSelected(user: User) {
+    console.log(user);
   }
 }
