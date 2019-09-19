@@ -130,6 +130,7 @@
 
     </ion-list>
 
-    <button block ion-button color="primary" [disabled]="!registerForm.valid">Registreren</button>
+    <button block ion-button color="primary" type="submit" [disabled]="!registerForm.valid">Registreren</button>
   </form>
+  <button block clear ion-button (click)="toLogin()">Ben je al geregistreerd? Log dan in</button>
 </ion-content>

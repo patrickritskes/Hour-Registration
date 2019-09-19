@@ -1,6 +1,7 @@
-import { User } from "firebase";
-
-export interface UserProfile extends User {
+export interface User {
+  name: string;
+  email: string;
+  password: string;
   address: string;
   city: string;
   zipcode: string;

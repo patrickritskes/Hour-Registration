@@ -9,7 +9,7 @@ export class FirebaseService {
 
   constructor(public afAuth: AngularFireAuth) {
     firebase.auth().onAuthStateChanged(user => {
-      if (user.uid) {
+      if (user && user.uid) {
         this.hasSession$.next(true);
       } else {
         this.hasSession$.next(false);
