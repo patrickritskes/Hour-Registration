@@ -14,19 +14,6 @@
           </h4>
         </ion-col>
       </ion-row>
-      <ion-row>
-        <ion-col col-12>
-          <button ion-button icon-only (click)="previousWeek()">
-            <ion-icon name="arrow-round-back"></ion-icon>
-          </button>
-          <button ion-button icon-only (click)="nextWeek()">
-            <ion-icon name="arrow-round-forward"></ion-icon>
-          </button>
-          <button ion-button icon-only (click)="currentWeek()">
-            <ion-icon name="calendar"></ion-icon>
-          </button>
-        </ion-col>
-      </ion-row>
       <ion-row class="week-number-wrapper">
         <ion-col col-12>
           <h2>Week {{ weekNumber }}</h2>
@@ -35,6 +22,21 @@
       <ion-row>
         <ion-col col-12 padding>
           <strong>Taak Winkel / Magazijn / Webshop</strong>
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-8>
+          <button ion-button icon-only type="button" (click)="previousWeek()">
+            <ion-icon name="arrow-round-back"></ion-icon>
+          </button>
+          <button ion-button icon-only type="button" (click)="nextWeek()">
+            <ion-icon name="arrow-round-forward"></ion-icon>
+          </button>
+        </ion-col>
+        <ion-col col-4>
+          <button ion-button icon-only type="button" (click)="currentWeek()">
+            <ion-icon name="calendar"></ion-icon>
+          </button>
         </ion-col>
       </ion-row>
       <ion-row>

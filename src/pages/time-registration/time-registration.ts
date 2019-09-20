@@ -28,7 +28,6 @@ export class TimeRegistrationPage implements OnInit {
 
   ionViewDidEnter() {
     moment.locale("nl");
-    this.getTimeReg();
     this.calculateWeekday();
   }
 
@@ -39,8 +38,7 @@ export class TimeRegistrationPage implements OnInit {
       woensdag: new FormControl(0),
       donderdag: new FormControl(0),
       vrijdag: new FormControl(0),
-      zaterdag: new FormControl(0),
-      zondag: new FormControl(0)
+      zaterdag: new FormControl(0)
     });
   }
 
@@ -55,11 +53,11 @@ export class TimeRegistrationPage implements OnInit {
   }
 
   currentWeek() {
-    this.currentDate = this.currentDate;
+    this.currentDate = moment();
     this.calculateWeekday();
   }
 
-  swipeEvent(event) {
+  swipeEvent(event: any) {
     // Swipe from left to right = forward
     if (event.direction === 2) {
       this.nextWeek();
@@ -95,27 +93,6 @@ export class TimeRegistrationPage implements OnInit {
     return previousValue + currentValue;
   }
 
-  private sortDays(a, b) {
-    let daysOfWeek = {
-      maandag: 1,
-      dinsdag: 2,
-      woensdag: 3,
-      donderdag: 4,
-      vrijdag: 5,
-      zaterdag: 6,
-      zondag: 7
-    };
-    // return daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b);
-  }
-
-  private getTimeReg() {
-    let uid = this.afAuth.auth.currentUser.uid;
-    let dbRef = this.db.database.ref(`users/${uid}/timeReg/`);
-    dbRef.on("value", snapshot => {
-      console.log(snapshot.val());
-    });
-  }
-
   private calculateWeekday() {
     let startOfWeek = this.currentDate.clone().startOf("week");
     let endOfWeek = this.currentDate.clone().endOf('week');
@@ -131,5 +108,31 @@ export class TimeRegistrationPage implements OnInit {
     this.weekDays = days;
     this.weekNumber = this.currentDate.week();
     this.weekBeginAndEndDay = this.weekDays[0] + " - " + this.weekDays[5];
+    this.getTimeReg();
+  }
+
+  private getTimeReg() {
+    let uid = this.afAuth.auth.currentUser.uid;
+    let dbRef = this.db.database.ref(`users/${uid}/timeReg/`);
+    dbRef.on("value", snapshot => {
+      const dataSnapshot = snapshot.val();
+      Object.keys(dataSnapshot).forEach(year => {
+        if (+year === this.currentDate.year()) {
+          Object.keys(dataSnapshot[year]).forEach(weekNumber => {
+            if (+weekNumber === this.currentDate.week()) {
+              const filledTimeReg = dataSnapshot[year][weekNumber].days;
+              this.timeRegForm = new FormGroup({
+                maandag: new FormControl(filledTimeReg.maandag || 0),
+                dinsdag: new FormControl(filledTimeReg.dinsdag || 0),
+                woensdag: new FormControl(filledTimeReg.woensdag || 0),
+                donderdag: new FormControl(filledTimeReg.donderdag || 0),
+                vrijdag: new FormControl(filledTimeReg.vrijdag || 0),
+                zaterdag: new FormControl(filledTimeReg.zaterdag || 0)
+              });
+            }
+          })
+        }
+      })
+    });
   }
 }
