@@ -5,7 +5,7 @@
 </ion-header>
 
 <ion-content
-  ><form (ngSubmit)="saveTimeReg(timeRegForm)" [formGroup]="timeRegForm">
+  ><form (ngSubmit)="saveTimeReg(timeRegForm)" [formGroup]="timeRegForm" (swipe)="swipeEvent($event)">
     <ion-grid>
       <ion-row>
         <ion-col col-12 padding>

@@ -75,6 +75,18 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
     this.calculateWeekday();
   }
 
+  swipeEvent(event) {
+    // Swipe from left to right = forward
+    if (event.direction === 2) {
+      this.nextWeek();
+    }
+
+    // Swipe from right to left = back
+    if (event.direction === 1 || event.direction === 4) {
+      this.previousWeek();
+    }
+  }
+
   saveTimeReg() {
     let uid = this.afAuth.auth.currentUser.uid;
     let workedHours = [];
