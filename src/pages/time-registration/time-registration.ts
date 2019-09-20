@@ -33,12 +33,12 @@ export class TimeRegistrationPage implements OnInit {
 
   ngOnInit() {
     this.timeRegForm = new FormGroup({
-      maandag: new FormControl(0),
-      dinsdag: new FormControl(0),
-      woensdag: new FormControl(0),
-      donderdag: new FormControl(0),
-      vrijdag: new FormControl(0),
-      zaterdag: new FormControl(0)
+      maandag: new FormControl(),
+      dinsdag: new FormControl(),
+      woensdag: new FormControl(),
+      donderdag: new FormControl(),
+      vrijdag: new FormControl(),
+      zaterdag: new FormControl()
     });
   }
 
@@ -113,6 +113,7 @@ export class TimeRegistrationPage implements OnInit {
 
   private getTimeReg() {
     let uid = this.afAuth.auth.currentUser.uid;
+    let workedHours = [];
     let dbRef = this.db.database.ref(`users/${uid}/timeReg/`);
     dbRef.on("value", snapshot => {
       const dataSnapshot = snapshot.val();
@@ -122,13 +123,22 @@ export class TimeRegistrationPage implements OnInit {
             if (+weekNumber === this.currentDate.week()) {
               const filledTimeReg = dataSnapshot[year][weekNumber].days;
               this.timeRegForm = new FormGroup({
-                maandag: new FormControl(filledTimeReg.maandag || 0),
-                dinsdag: new FormControl(filledTimeReg.dinsdag || 0),
-                woensdag: new FormControl(filledTimeReg.woensdag || 0),
-                donderdag: new FormControl(filledTimeReg.donderdag || 0),
-                vrijdag: new FormControl(filledTimeReg.vrijdag || 0),
-                zaterdag: new FormControl(filledTimeReg.zaterdag || 0)
+                maandag: new FormControl(filledTimeReg.maandag || ''),
+                dinsdag: new FormControl(filledTimeReg.dinsdag || ''),
+                woensdag: new FormControl(filledTimeReg.woensdag || ''),
+                donderdag: new FormControl(filledTimeReg.donderdag || ''),
+                vrijdag: new FormControl(filledTimeReg.vrijdag || ''),
+                zaterdag: new FormControl(filledTimeReg.zaterdag || '')
               });
+              Object.keys(filledTimeReg).forEach(days => {
+                if (filledTimeReg[days]) {
+                  let replacedValue = filledTimeReg[days].replace(":", ".");
+                  workedHours.push(+replacedValue);
+                }
+              })
+              this.totalWorkedHours = workedHours
+                .reduce(this.incrementSumValue)
+                .toFixed(2);
             }
           })
         }
