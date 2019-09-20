@@ -1,4 +1,4 @@
-import { Component, OnInit } from "@angular/core";
+import { Component, OnChanges, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from "angularfire2/database";
@@ -10,12 +10,13 @@ import moment from "moment";
   selector: "page-time-registration",
   templateUrl: "time-registration.html"
 })
-export class TimeRegistrationPage implements OnInit {
+export class TimeRegistrationPage implements OnChanges, OnInit {
   weekDays: Array<Date> = [];
-  weekNumber: number;
+  weekNumber: any;
   weekBeginAndEndDay: any;
   timeRegForm: FormGroup;
-  totalWorkedHours: number;
+  totalWorkedHours = 0;
+  currentDate = moment();
 
   constructor(
     public navCtrl: NavController,
@@ -24,8 +25,12 @@ export class TimeRegistrationPage implements OnInit {
     private db: AngularFireDatabase
   ) {}
 
+  ngOnChanges() {
+    moment.locale("nl");
+    this.calculateWeekday();
+  }
+
   ngOnInit() {
-    this.totalWorkedHours = 0;
     this.timeRegForm = new FormGroup({
       maandag: new FormControl(0),
       dinsdag: new FormControl(0),
@@ -35,21 +40,39 @@ export class TimeRegistrationPage implements OnInit {
       zaterdag: new FormControl(0),
       zondag: new FormControl(0)
     });
-    moment.locale("nl");
-    let startOfWeek = moment().startOf("isoWeek");
-    let endOfWeek = moment().endOf("isoWeek");
-    let day = startOfWeek;
+  }
 
-    while (day <= endOfWeek) {
-      this.weekDays.push(day.toDate());
-      day = day.clone().add(1, "d");
-    }
-
-    const beginWeekDay = moment().day(1);
-    const endWeekDay = moment().day(7);
+  previousWeek() {
+    this.currentDate = this.currentDate.subtract(1, "week");
+    this.weekNumber = this.currentDate.week();
     this.weekBeginAndEndDay =
-      beginWeekDay.format("DD MMM") + " - " + endWeekDay.format("DD MMM Y");
-    this.weekNumber = moment().week();
+      this.currentDate.day(1).format("DD MMM") +
+      " - " +
+      this.currentDate.day(7).format("DD MMM Y");
+    this.timeRegForm.reset();
+    this.calculateWeekday();
+  }
+
+  nextWeek() {
+    this.currentDate = this.currentDate.add(1, "week");
+    this.weekNumber = this.currentDate.week();
+    this.weekBeginAndEndDay =
+      this.currentDate.day(1).format("DD MMM") +
+      " - " +
+      this.currentDate.day(7).format("DD MMM Y");
+    this.timeRegForm.reset();
+    this.calculateWeekday();
+  }
+
+  currentWeek() {
+    this.currentDate = this.currentDate;
+    this.weekNumber = this.currentDate.week();
+    this.weekBeginAndEndDay =
+      this.currentDate.day(1).format("DD MMM") +
+      " - " +
+      this.currentDate.day(7).format("DD MMM Y");
+    this.timeRegForm.reset();
+    this.calculateWeekday();
   }
 
   saveTimeReg() {
@@ -92,5 +115,19 @@ export class TimeRegistrationPage implements OnInit {
       zondag: 7
     };
     // return daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b);
+  }
+
+  private calculateWeekday() {
+    let startOfWeek = this.currentDate.clone().startOf("week");
+    let days = [];
+
+    for (let i = 0; i <= 6; i++) {
+      days.push(
+        moment(startOfWeek)
+          .add(i, "days")
+          .format("DD MMM Y")
+      );
+    }
+    this.weekDays = days;
   }
 }
