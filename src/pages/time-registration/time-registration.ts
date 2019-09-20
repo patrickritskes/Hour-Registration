@@ -18,17 +18,15 @@ export class TimeRegistrationPage implements OnInit {
   totalWorkedHours = 0;
   currentDate = moment();
   currentYear: number;
-  uid: string;
 
   constructor(
     public navCtrl: NavController,
     public navParams: NavParams,
     private afAuth: AngularFireAuth,
     private db: AngularFireDatabase
-  ) {}
+  ) { }
 
   ionViewDidEnter() {
-    this.uid = this.afAuth.auth.currentUser.uid;
     moment.locale("nl");
     this.getTimeReg();
     this.calculateWeekday();
@@ -48,19 +46,16 @@ export class TimeRegistrationPage implements OnInit {
 
   previousWeek() {
     this.currentDate = this.currentDate.subtract(1, "week");
-    this.weekNumber = this.currentDate.week();
     this.calculateWeekday();
   }
 
   nextWeek() {
     this.currentDate = this.currentDate.add(1, "week");
-    this.weekNumber = this.currentDate.week();
     this.calculateWeekday();
   }
 
   currentWeek() {
     this.currentDate = this.currentDate;
-    this.weekNumber = this.currentDate.week();
     this.calculateWeekday();
   }
 
@@ -123,17 +118,18 @@ export class TimeRegistrationPage implements OnInit {
 
   private calculateWeekday() {
     let startOfWeek = this.currentDate.clone().startOf("week");
+    let endOfWeek = this.currentDate.clone().endOf('week');
     let days = [];
-
-    for (let i = 1; i <= 7; i++) {
+    for (let i = 2; i <= 7; i++) {
       days.push(
         moment(startOfWeek)
           .add(i, "days")
           .format("DD MMM")
       );
-      this.currentYear = moment(startOfWeek).year();
     }
+    this.currentYear = moment(endOfWeek).year();
     this.weekDays = days;
-    this.weekBeginAndEndDay = this.weekDays[0] + " - " + this.weekDays[6];
+    this.weekNumber = this.currentDate.week();
+    this.weekBeginAndEndDay = this.weekDays[0] + " - " + this.weekDays[5];
   }
 }
