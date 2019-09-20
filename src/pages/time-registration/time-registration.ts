@@ -17,6 +17,7 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
   timeRegForm: FormGroup;
   totalWorkedHours = 0;
   currentDate = moment();
+  currentYear: number;
 
   constructor(
     public navCtrl: NavController,
@@ -45,33 +46,18 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
   previousWeek() {
     this.currentDate = this.currentDate.subtract(1, "week");
     this.weekNumber = this.currentDate.week();
-    this.weekBeginAndEndDay =
-      this.currentDate.day(1).format("DD MMM") +
-      " - " +
-      this.currentDate.day(7).format("DD MMM Y");
-    this.timeRegForm.reset();
     this.calculateWeekday();
   }
 
   nextWeek() {
     this.currentDate = this.currentDate.add(1, "week");
     this.weekNumber = this.currentDate.week();
-    this.weekBeginAndEndDay =
-      this.currentDate.day(1).format("DD MMM") +
-      " - " +
-      this.currentDate.day(7).format("DD MMM Y");
-    this.timeRegForm.reset();
     this.calculateWeekday();
   }
 
   currentWeek() {
     this.currentDate = this.currentDate;
     this.weekNumber = this.currentDate.week();
-    this.weekBeginAndEndDay =
-      this.currentDate.day(1).format("DD MMM") +
-      " - " +
-      this.currentDate.day(7).format("DD MMM Y");
-    this.timeRegForm.reset();
     this.calculateWeekday();
   }
 
@@ -87,7 +73,7 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
     }
   }
 
-  saveTimeReg() {
+  saveTimeReg(year: number, weekNumber: number) {
     let uid = this.afAuth.auth.currentUser.uid;
     let workedHours = [];
     const rawValues = this.timeRegForm.getRawValue();
@@ -102,14 +88,9 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
         .reduce(this.incrementSumValue)
         .toFixed(2);
     }
-    const saveToDB = {
-      [moment().year()]: {
-        [moment().week()]: {
-          days: rawValues
-        }
-      }
-    };
-    this.db.list(`/users/`).update(`${uid}/timeReg/`, saveToDB);
+    this.db
+      .list(`/users/`)
+      .update(`${uid}/timeReg/${year}/${weekNumber}/days/`, rawValues);
   }
 
   private incrementSumValue(previousValue: number, currentValue: number) {
@@ -133,13 +114,15 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
     let startOfWeek = this.currentDate.clone().startOf("week");
     let days = [];
 
-    for (let i = 0; i <= 6; i++) {
+    for (let i = 1; i <= 7; i++) {
       days.push(
         moment(startOfWeek)
           .add(i, "days")
-          .format("DD MMM Y")
+          .format("DD MMM")
       );
+      this.currentYear = moment(startOfWeek).year();
     }
     this.weekDays = days;
+    this.weekBeginAndEndDay = this.weekDays[0] + " - " + this.weekDays[6];
   }
 }

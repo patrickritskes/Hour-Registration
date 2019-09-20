@@ -1,16 +1,16 @@
 <ion-header>
   <ion-navbar>
-    <ion-title>time-registration</ion-title>
+    <ion-title>Tijdregistratie</ion-title>
   </ion-navbar>
 </ion-header>
 
 <ion-content
-  ><form (ngSubmit)="saveTimeReg(timeRegForm)" [formGroup]="timeRegForm" (swipe)="swipeEvent($event)">
+  ><form (ngSubmit)="saveTimeReg(currentYear, weekNumber)" [formGroup]="timeRegForm" (swipe)="swipeEvent($event)">
     <ion-grid>
       <ion-row>
         <ion-col col-12 padding>
           <h4>
-            <strong>Tijdregistratie {{ weekBeginAndEndDay }}</strong>
+            {{ weekBeginAndEndDay }}
           </h4>
         </ion-col>
       </ion-row>
