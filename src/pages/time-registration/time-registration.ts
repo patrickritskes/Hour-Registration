@@ -1,4 +1,4 @@
-import { Component, OnChanges, OnInit } from "@angular/core";
+import { Component, OnInit } from "@angular/core";
 import { FormControl, FormGroup } from "@angular/forms";
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from "angularfire2/database";
@@ -10,7 +10,7 @@ import moment from "moment";
   selector: "page-time-registration",
   templateUrl: "time-registration.html"
 })
-export class TimeRegistrationPage implements OnChanges, OnInit {
+export class TimeRegistrationPage implements OnInit {
   weekDays: Array<Date> = [];
   weekNumber: any;
   weekBeginAndEndDay: any;
@@ -18,6 +18,7 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
   totalWorkedHours = 0;
   currentDate = moment();
   currentYear: number;
+  uid: string;
 
   constructor(
     public navCtrl: NavController,
@@ -26,8 +27,10 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
     private db: AngularFireDatabase
   ) {}
 
-  ngOnChanges() {
+  ionViewDidEnter() {
+    this.uid = this.afAuth.auth.currentUser.uid;
     moment.locale("nl");
+    this.getTimeReg();
     this.calculateWeekday();
   }
 
@@ -108,6 +111,14 @@ export class TimeRegistrationPage implements OnChanges, OnInit {
       zondag: 7
     };
     // return daysOfWeek.indexOf(a) - daysOfWeek.indexOf(b);
+  }
+
+  private getTimeReg() {
+    let uid = this.afAuth.auth.currentUser.uid;
+    let dbRef = this.db.database.ref(`users/${uid}/timeReg/`);
+    dbRef.on("value", snapshot => {
+      console.log(snapshot.val());
+    });
   }
 
   private calculateWeekday() {
