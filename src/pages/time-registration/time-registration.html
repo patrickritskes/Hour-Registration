@@ -7,6 +7,9 @@
 <ion-content
   ><form (ngSubmit)="saveTimeReg(timeRegForm)" [formGroup]="timeRegForm">
     <ion-grid>
+      <ion-row>
+        <ion-col col-12> Tijdregistratie {{ weekBeginAndEndDay }} </ion-col>
+      </ion-row>
       <ion-row class="week-number-wrapper">
         <ion-col col-12
           ><h2>Week {{ weekNumber }}</h2></ion-col
@@ -14,25 +17,26 @@
       </ion-row>
       <ion-row>
         <ion-col class="day-header" *ngFor="let day of weekDays">{{
-          day
+          day | date: "EEEEEE dd LLL"
         }}</ion-col>
       </ion-row>
       <ion-row>
-        <ion-col
-          class="time-reg"
-          *ngFor="let day of weekDays; let index = index"
-        >
-          <ion-input
-            class="time-reg-input"
-            type="number"
-            maxLength="2"
-            formControlName="timeInput{{ index }}"
-          ></ion-input>
-        </ion-col>
+        <ion-col class="time-reg"><ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="maandag"></ion-datetime> </ion-col>
+        <ion-col class="time-reg"><ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="dinsdag"></ion-datetime> </ion-col>
+        <ion-col class="time-reg"><ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="woensdag"></ion-datetime> </ion-col>
+        <ion-col class="time-reg"><ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="donderdag"></ion-datetime> </ion-col>
+        <ion-col class="time-reg"><ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="vrijdag"></ion-datetime> </ion-col>
+        <ion-col class="time-reg"><ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="zaterdag"></ion-datetime> </ion-col>
+        <ion-col class="time-reg"><ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="zondag"></ion-datetime> </ion-col>
       </ion-row>
       <ion-row>
         <ion-col col-12>
           Totaat gewerkt deze week: {{ totalWorkedHours }}
+        </ion-col>
+      </ion-row>
+      <ion-row>
+        <ion-col col-12>
+          Totaat gewerkt deze maand: {{ totalWorkedHours }}
         </ion-col>
       </ion-row>
       <ion-row>

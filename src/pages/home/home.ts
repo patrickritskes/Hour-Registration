@@ -18,7 +18,7 @@ import { TimeRegistrationPage } from "../time-registration/time-registration";
   templateUrl: "home.html"
 })
 export class HomePage {
-  ownUserProfile: Array<User> = [];
+  ownUserProfile: User;
   adminUserProfile: Array<User> = [];
   userProfiles: Array<User> = [];
   isCurrentUserAdmin: boolean;
@@ -41,7 +41,6 @@ export class HomePage {
       if (userdata !== null) {
         const dbRef = firebase.database().ref(`users/` + userdata.uid);
         dbRef.on("value", snapshot => {
-          this.ownUserProfile = [];
           this.adminUserProfile = [];
           const role = snapshot.val().role;
 
@@ -54,7 +53,7 @@ export class HomePage {
 
           if (role === "user") {
             this.isCurrentUserAdmin = false;
-            this.ownUserProfile.push(snapshot.val());
+            this.ownUserProfile = snapshot.val();
           }
         });
       }
@@ -73,13 +72,6 @@ export class HomePage {
       .subscribe(profiles => {
         this.userProfiles = profiles;
       });
-  }
-
-  showAdminProfile(adminProfileData: User) {
-    let adminModal = this.modalCtrl.create(AdminprofilePage, {
-      adminUser: adminProfileData
-    });
-    adminModal.present();
   }
 
   logOut() {
@@ -106,10 +98,19 @@ export class HomePage {
     actionSheet.present();
   }
 
+  // Admin only
+  showAdminProfile(adminProfileData: User) {
+    let adminModal = this.modalCtrl.create(AdminprofilePage, {
+      adminUser: adminProfileData
+    });
+    adminModal.present();
+  }
+
   userSelected(user: User) {
     console.log(user);
   }
 
+  // User only
   toTimeRegistraion() {
     this.navCtrl.push(TimeRegistrationPage);
   }

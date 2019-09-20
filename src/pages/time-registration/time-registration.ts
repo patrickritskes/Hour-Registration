@@ -9,8 +9,9 @@ import moment from "moment";
   templateUrl: "time-registration.html"
 })
 export class TimeRegistrationPage implements OnInit {
-  weekDays: Array<string> = [];
-  weekNumber: string;
+  weekDays: Array<Date> = [];
+  weekNumber: number;
+  weekBeginAndEndDay: any;
   timeRegForm: FormGroup;
   totalWorkedHours: number;
 
@@ -19,35 +20,48 @@ export class TimeRegistrationPage implements OnInit {
   ngOnInit() {
     this.totalWorkedHours = 0;
     this.timeRegForm = new FormGroup({
-      timeInput0: new FormControl(),
-      timeInput1: new FormControl(),
-      timeInput2: new FormControl(),
-      timeInput3: new FormControl(),
-      timeInput4: new FormControl(),
-      timeInput5: new FormControl()
+      maandag: new FormControl(),
+      dinsdag: new FormControl(),
+      woensdag: new FormControl(),
+      donderdag: new FormControl(),
+      vrijdag: new FormControl(),
+      zaterdag: new FormControl(),
+      zondag: new FormControl()
     });
     moment.locale("nl");
-    const currentMoment = moment().subtract(3, "days");
-    const endMoment = moment().add(3, "days");
-    while (currentMoment.isBefore(endMoment, "day")) {
-      this.weekNumber = currentMoment.format("w");
-      const parsedWeekdays = currentMoment.format("ddd DD MMM");
-      this.weekDays.push(parsedWeekdays);
-      currentMoment.add(1, "days");
+    let startOfWeek = moment().startOf("isoWeek");
+    let endOfWeek = moment().endOf("isoWeek");
+    let day = startOfWeek;
+
+    while (day <= endOfWeek) {
+      this.weekDays.push(day.toDate());
+      day = day.clone().add(1, "d");
     }
+
+    const beginWeekDay = moment().weekday(1);
+    const endWeekDay = moment().weekday(5);
+    this.weekBeginAndEndDay =
+      beginWeekDay.format("DD MMM") + " - " + endWeekDay.format("DD MMM Y");
+    this.weekNumber = moment().week();
   }
 
   saveTimeReg() {
     let workedHours = [];
     const rawValues = this.timeRegForm.getRawValue();
     Object.keys(rawValues).forEach(values => {
-      workedHours.push(+rawValues[values]);
+      if (rawValues[values]) {
+        let replacedValue = rawValues[values].replace(":", ".");
+        workedHours.push(+replacedValue);
+      }
     });
-    this.totalWorkedHours = workedHours.reduce(this.incrementSumValue);
-    console.log(this.totalWorkedHours);
+    if (workedHours.length > 0) {
+      this.totalWorkedHours = workedHours
+        .reduce(this.incrementSumValue)
+        .toFixed(2);
+    }
   }
 
-  private incrementSumValue(previousValue, currentValue) {
+  private incrementSumValue(previousValue: number, currentValue: number) {
     return previousValue + currentValue;
   }
 }

@@ -1,4 +1,6 @@
-import { ErrorHandler, NgModule } from "@angular/core";
+import { registerLocaleData } from "@angular/common";
+import localeNl from "@angular/common/locales/nl";
+import { ErrorHandler, LOCALE_ID, NgModule } from "@angular/core";
 import { BrowserModule } from "@angular/platform-browser";
 import { SplashScreen } from "@ionic-native/splash-screen";
 import { StatusBar } from "@ionic-native/status-bar";
@@ -16,6 +18,7 @@ import { FirebaseService } from "../services/firebase.service";
 import { MyApp } from "./app.component";
 import { FIREBASE_CONFIG } from "./firebase.config";
 
+registerLocaleData(localeNl, "nl");
 @NgModule({
   declarations: [
     MyApp,
@@ -47,7 +50,8 @@ import { FIREBASE_CONFIG } from "./firebase.config";
     StatusBar,
     SplashScreen,
     { provide: ErrorHandler, useClass: IonicErrorHandler },
-    FirebaseService
+    FirebaseService,
+    { provide: LOCALE_ID, useValue: "nl-NL" }
   ]
 })
 export class AppModule {}

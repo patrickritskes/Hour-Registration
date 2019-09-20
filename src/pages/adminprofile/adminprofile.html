@@ -16,17 +16,31 @@
 <ion-content padding>
   <ion-card *ngIf="adminData">
     <ion-card-title padding>{{ adminData.name }}</ion-card-title>
-    <address>
-      <ion-card-content>
-        <address>
-          <p>{{ adminData.address }}</p>
-          <p>{{ adminData.zipcode }} {{ adminData.city }}</p>
-          <p><ion-icon name="call"></ion-icon> {{ adminData.phoneNumber }}</p>
-        </address>
-      </ion-card-content>
-    </address>
+    <ion-card-content>
+      <address>
+        <p>{{ adminData.address }}</p>
+        <p>{{ adminData.zipcode }} {{ adminData.city }}</p>
+        <p><ion-icon name="call"></ion-icon> {{ adminData.phoneNumber }}</p>
+      </address>
+    </ion-card-content>
   </ion-card>
 
-  <button ion-button block color="danger" class="btn-modante" (click)="logOut()">Uitloggen</button>
-  <button block ion-button color="secondary" class="btn-modante" (click)="dismiss()">Terug naar je Profiel</button>
+  <button
+    ion-button
+    block
+    color="danger"
+    class="btn-modante"
+    (click)="logOut()"
+  >
+    Uitloggen
+  </button>
+  <button
+    block
+    ion-button
+    color="secondary"
+    class="btn-modante"
+    (click)="dismiss()"
+  >
+    Terug naar je Profiel
+  </button>
 </ion-content>
