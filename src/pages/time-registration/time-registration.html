@@ -5,8 +5,25 @@
 </ion-header>
 
 <ion-content>
-  <form [formGroup]="timeRegForm">
-    <ion-grid (swipe)="swipeEvent($event)">
+  <ion-grid>
+    <ion-row>
+      <ion-col col-8>
+        <button ion-button (click)="previousWeek()">
+          <ion-icon name="arrow-round-back"></ion-icon>
+        </button>
+        <button ion-button (click)="nextWeek()">
+          <ion-icon name="arrow-round-forward"></ion-icon>
+        </button>
+      </ion-col>
+      <ion-col col-4>
+        <button ion-button (click)="currentWeek()">
+          <ion-icon name="calendar"></ion-icon>
+        </button>
+      </ion-col>
+    </ion-row>
+  </ion-grid>
+  <form [formGroup]="timeRegForm" (swipe)="swipeEvent($event)">
+    <ion-grid >
       <ion-row>
         <ion-col col-12 padding>
           <h4>
@@ -25,48 +42,33 @@
         </ion-col>
       </ion-row>
       <ion-row>
-        <ion-col col-8>
-          <button ion-button icon-only type="button" (click)="previousWeek()">
-            <ion-icon name="arrow-round-back"></ion-icon>
-          </button>
-          <button ion-button icon-only type="button" (click)="nextWeek()">
-            <ion-icon name="arrow-round-forward"></ion-icon>
-          </button>
-        </ion-col>
-        <ion-col col-4>
-          <button ion-button icon-only type="button" (click)="currentWeek()">
-            <ion-icon name="calendar"></ion-icon>
-          </button>
-        </ion-col>
-      </ion-row>
-      <ion-row>
         <ion-col class="day-header" *ngFor="let day of weekDays">{{
           day | date: "EEEEEE dd LLL"
         }}</ion-col>
       </ion-row>
       <ion-row>
         <ion-col class="time-reg">
-          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="maandag">
+          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" max="08:00" formControlName="maandag">
           </ion-datetime>
         </ion-col>
         <ion-col class="time-reg">
-          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="dinsdag">
+          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" max="08:00" formControlName="dinsdag">
           </ion-datetime>
         </ion-col>
         <ion-col class="time-reg">
-          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="woensdag">
+          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" max="08:00" formControlName="woensdag">
           </ion-datetime>
         </ion-col>
         <ion-col class="time-reg">
-          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="donderdag">
+          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" max="08:00" formControlName="donderdag">
           </ion-datetime>
         </ion-col>
         <ion-col class="time-reg">
-          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="vrijdag">
+          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" max="08:00" formControlName="vrijdag">
           </ion-datetime>
         </ion-col>
         <ion-col class="time-reg">
-          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" formControlName="zaterdag">
+          <ion-datetime displayFormat="H.mm" pickerFormat="H.mm" minuteValues="0, 30" max="08:00" formControlName="zaterdag">
           </ion-datetime>
         </ion-col>
 
@@ -83,7 +85,7 @@
       </ion-row>
       <ion-row>
         <ion-col col-12>
-          <button type="button" (click)="saveTimeReg(currentYear, weekNumber)" ion-button full icon-start
+          <button type="button" (click)="saveTimeReg(currentYear, currentMonth, weekNumber)" ion-button full icon-start
             color="primary">
             <ion-icon name="save"></ion-icon>
             Opslaan
