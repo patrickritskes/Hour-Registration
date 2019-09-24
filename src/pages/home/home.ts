@@ -12,6 +12,7 @@ import { FirebaseService } from "../../services/firebase.service";
 import { AdminprofilePage } from "../adminprofile/adminprofile";
 import { LoginPage } from "../login/login";
 import { TimeRegistrationPage } from "../time-registration/time-registration";
+import { SingleUserProfilePage } from "../single-user-profile/single-user-profile";
 
 @Component({
   selector: "page-home",
@@ -48,7 +49,6 @@ export class HomePage {
           if (role === "admin") {
             this.isCurrentUserAdmin = true;
             this.adminUserProfile = snapshot.val();
-            console.log(this.adminUserProfile);
           }
 
           if (role === "user") {
@@ -107,7 +107,9 @@ export class HomePage {
   }
 
   userSelected(user: User) {
-    console.log(user);
+    this.navCtrl.push(SingleUserProfilePage, {
+      user: user
+    });
   }
 
   // User only

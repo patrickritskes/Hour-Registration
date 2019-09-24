@@ -17,6 +17,7 @@ import { TimeRegistrationPage } from "../pages/time-registration/time-registrati
 import { FirebaseService } from "../services/firebase.service";
 import { MyApp } from "./app.component";
 import { FIREBASE_CONFIG } from "./firebase.config";
+import { SingleUserProfilePage } from "../pages/single-user-profile/single-user-profile";
 
 registerLocaleData(localeNl, "nl");
 @NgModule({
@@ -27,6 +28,7 @@ registerLocaleData(localeNl, "nl");
     RegisterPage,
     PasswordResetPage,
     AdminprofilePage,
+    SingleUserProfilePage,
     TimeRegistrationPage
   ],
   imports: [
@@ -44,6 +46,7 @@ registerLocaleData(localeNl, "nl");
     RegisterPage,
     PasswordResetPage,
     AdminprofilePage,
+    SingleUserProfilePage,
     TimeRegistrationPage
   ],
   providers: [
