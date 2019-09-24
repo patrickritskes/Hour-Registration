@@ -3,7 +3,7 @@ import { FormControl, FormGroup } from "@angular/forms";
 import { AngularFireAuth } from "angularfire2/auth";
 import { AngularFireDatabase } from "angularfire2/database";
 import { IonicPage, NavController, NavParams } from "ionic-angular";
-import moment from "moment";
+import moment, { months } from "moment";
 
 @IonicPage()
 @Component({
@@ -82,15 +82,11 @@ export class TimeRegistrationPage implements OnInit {
         workedHours.push(+replacedValue);
       }
     });
-    // Calculate week workinghours when save to db
-    if (workedHours.length > 0) {
-      this.totalWorkedHours = workedHours
-        .reduce(this.incrementSumValue)
-        .toFixed(2);
-    }
+    // Recalculate week and month workinghours when save to db
     this.db
       .list(`/users/`)
       .update(`${uid}/timeReg/${year}/${month}/${weekNumber}/days/`, rawValues);
+      this.getTimeReg(year, month, weekNumber)
   }
 
   private incrementSumValue(previousValue: number, currentValue: number) {
@@ -153,6 +149,7 @@ export class TimeRegistrationPage implements OnInit {
         this.totalMonthlyWorkedHours = 0;
       }
     });
+    // Calculate monthly worked hours
     let dbMonthRef = this.db.database.ref(`users/${uid}/timeReg/${year}/${month}/`);
     dbMonthRef.on("value", monthDataSnapshot => {
       const monthWithValues = monthDataSnapshot.val();
@@ -160,10 +157,12 @@ export class TimeRegistrationPage implements OnInit {
         Object.keys(monthWithValues).forEach(monthValues => {
           Object.keys(monthWithValues[monthValues].days).forEach(days => {
             let replacedMonthValues = monthWithValues[monthValues].days[days].replace(":", ".");
-            monthlyWorkedHours.push(parseFloat(replacedMonthValues));
+            if (replacedMonthValues && replacedMonthValues !== NaN) {
+              monthlyWorkedHours.push(parseFloat(replacedMonthValues));
+            }
           })
         });
-        if (monthlyWorkedHours && monthlyWorkedHours.length > 0) {
+        if (monthlyWorkedHours && monthlyWorkedHours.length > 0) {  
           this.totalMonthlyWorkedHours = monthlyWorkedHours.reduce(this.incrementSumValue).toFixed(2);
         }
       }
