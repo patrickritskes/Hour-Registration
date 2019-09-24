@@ -133,7 +133,13 @@ export class TimeRegistrationPage implements OnInit {
         Object.keys(dayWithValues).forEach(days => {
           if (dayWithValues[days]) {
             let replacedValue = dayWithValues[days].replace(":", ".");
-            workedHours.push(parseFloat(replacedValue));
+            let splitTime = replacedValue.split(/[.:]/);
+            let hours = parseInt(splitTime[0], 10);
+            let minutes = splitTime[1] ? parseInt(splitTime[1], 10) : 0;
+            let parsedTime = hours + minutes / 60;
+            if (parsedTime && parsedTime !== NaN) {
+              workedHours.push(parsedTime);
+            }
           }
         });
         if (workedHours && workedHours.length > 0) {
@@ -157,8 +163,12 @@ export class TimeRegistrationPage implements OnInit {
         Object.keys(monthWithValues).forEach(monthValues => {
           Object.keys(monthWithValues[monthValues].days).forEach(days => {
             let replacedMonthValues = monthWithValues[monthValues].days[days].replace(":", ".");
-            if (replacedMonthValues && replacedMonthValues !== NaN) {
-              monthlyWorkedHours.push(parseFloat(replacedMonthValues));
+            let splitTime = replacedMonthValues.split(/[.:]/);
+            let hours = parseInt(splitTime[0], 10);
+            let minutes = splitTime[1] ? parseInt(splitTime[1], 10) : 0;
+            let parsedTime = hours + minutes / 60;
+            if (parsedTime && parsedTime !== NaN) {
+              monthlyWorkedHours.push(parsedTime);
             }
           })
         });
