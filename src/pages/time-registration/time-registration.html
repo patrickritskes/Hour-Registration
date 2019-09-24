@@ -24,16 +24,11 @@
   </ion-grid>
   <form [formGroup]="timeRegForm" (swipe)="swipeEvent($event)">
     <ion-grid >
-      <ion-row>
-        <ion-col col-12 padding>
-          <h4>
-            {{ weekBeginAndEndDay }} {{ currentYear }}
-          </h4>
-        </ion-col>
-      </ion-row>
       <ion-row class="week-number-wrapper">
         <ion-col col-12>
-          <h2>Week {{ weekNumber }}</h2>
+          <h2>Week {{ weekNumber }} <br/>
+            <small>{{ weekBeginAndEndDay }} {{ currentYear }}</small>
+          </h2>
         </ion-col>
       </ion-row>
       <ion-row>
@@ -80,7 +75,7 @@
       </ion-row>
       <ion-row>
         <ion-col col-12 padding>
-          Totaal gewerkt deze maand: {{ totalWorkedHours }}
+          Totaal gewerkt deze maand: {{ totalMonthlyWorkedHours }}
         </ion-col>
       </ion-row>
       <ion-row>

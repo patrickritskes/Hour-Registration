@@ -18,6 +18,7 @@ export class TimeRegistrationPage implements OnInit {
   weekBeginAndEndDay: any;
   timeRegForm: FormGroup;
   totalWorkedHours = 0;
+  totalMonthlyWorkedHours = 0;
   currentDate = moment();
 
   constructor(
@@ -34,12 +35,12 @@ export class TimeRegistrationPage implements OnInit {
 
   ngOnInit() {
     this.timeRegForm = new FormGroup({
-      maandag: new FormControl('00:00'),
-      dinsdag: new FormControl('00:00'),
-      woensdag: new FormControl('00:00'),
-      donderdag: new FormControl('00:00'),
-      vrijdag: new FormControl('00:00'),
-      zaterdag: new FormControl('00:00')
+      maandag: new FormControl(),
+      dinsdag: new FormControl(),
+      woensdag: new FormControl(),
+      donderdag: new FormControl(),
+      vrijdag: new FormControl(),
+      zaterdag: new FormControl()
     });
   }
 
@@ -118,26 +119,27 @@ export class TimeRegistrationPage implements OnInit {
   private getTimeReg(year: number, month: number, weekNumber: number) {
     let uid = this.afAuth.auth.currentUser.uid;
     let workedHours = [];
+    let monthlyWorkedHours = [];
     // Query DB based on incoming year, month and weeknumber
-    let dbRef = this.db.database.ref(`users/${uid}/timeReg/${year}/${month}/${weekNumber}/days/`);
-    dbRef.on("value", dataSnapshot => {
+    let dbDaysRef = this.db.database.ref(`users/${uid}/timeReg/${year}/${month}/${weekNumber}/days/`);
+    dbDaysRef.on("value", dataSnapshot => {
       const dayWithValues = dataSnapshot.val();
       if (dayWithValues) {
         this.timeRegForm.setValue({
-          maandag: dayWithValues.maandag || '00:00',
-          dinsdag: dayWithValues.dinsdag || '00:00',
-          woensdag: dayWithValues.woensdag || '00:00',
-          donderdag: dayWithValues.donderdag || '00:00',
-          vrijdag: dayWithValues.vrijdag || '00:00',
-          zaterdag: dayWithValues.zaterdag || '00:00'
+          maandag: dayWithValues.maandag || '',
+          dinsdag: dayWithValues.dinsdag || '',
+          woensdag: dayWithValues.woensdag || '',
+          donderdag: dayWithValues.donderdag || '',
+          vrijdag: dayWithValues.vrijdag || '',
+          zaterdag: dayWithValues.zaterdag || ''
         });
         // Calculate week working hours
         Object.keys(dayWithValues).forEach(days => {
           if (dayWithValues[days]) {
             let replacedValue = dayWithValues[days].replace(":", ".");
-            workedHours.push(+replacedValue);
+            workedHours.push(parseFloat(replacedValue));
           }
-        })
+        });
         if (workedHours && workedHours.length > 0) {
           this.totalWorkedHours = workedHours
             .reduce(this.incrementSumValue)
@@ -146,8 +148,24 @@ export class TimeRegistrationPage implements OnInit {
       }
       // Reset empty form controls when navigating
       else {
-        this.timeRegForm.reset('00:00')
-        this.totalWorkedHours = 0
+        this.timeRegForm.reset()
+        this.totalWorkedHours = 0;
+        this.totalMonthlyWorkedHours = 0;
+      }
+    });
+    let dbMonthRef = this.db.database.ref(`users/${uid}/timeReg/${year}/${month}/`);
+    dbMonthRef.on("value", monthDataSnapshot => {
+      const monthWithValues = monthDataSnapshot.val();
+      if (monthWithValues) {
+        Object.keys(monthWithValues).forEach(monthValues => {
+          Object.keys(monthWithValues[monthValues].days).forEach(days => {
+            let replacedMonthValues = monthWithValues[monthValues].days[days].replace(":", ".");
+            monthlyWorkedHours.push(parseFloat(replacedMonthValues));
+          })
+        });
+        if (monthlyWorkedHours && monthlyWorkedHours.length > 0) {
+          this.totalMonthlyWorkedHours = monthlyWorkedHours.reduce(this.incrementSumValue).toFixed(2);
+        }
       }
     });
   }
